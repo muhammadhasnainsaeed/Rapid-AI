@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer class="w-full bg-gradient-to-b from-[#1B004D] to-[#2E0A6F] text-white">
+    <footer class="w-full bg-gray-900 text-white">
       <div class="max-w-7xl mx-auto px-6 py-16 flex flex-col items-center">
         <div class="flex items-center space-x-3 mb-6">
           <img
@@ -16,7 +16,7 @@ export default function Footer() {
           Write articles, generate images, and enhance your workflow.
         </p>
       </div>
-      <div class="border-t border-[#3B1A7A]">
+      <div class="border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-6 py-6 text-center text-sm font-normal">
           <a href="https://prebuiltui.com">prebuiltui</a> ©2025. All rights
           reserved.
