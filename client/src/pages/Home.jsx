@@ -2,6 +2,7 @@ import FeaturesSection from "../components/FeaturesSection";
 import Footer from "../components/Footer";
 import { HeroSection } from "../components/HeroSection";
 import Navbar from "../components/Navbar";
+import PricePlan from "../components/PricePlan";
 import Testimonials from "../components/Testimonials";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
       <HeroSection />
       <FeaturesSection />
       <Testimonials />
+      <PricePlan />
       <Footer />
     </div>
   );

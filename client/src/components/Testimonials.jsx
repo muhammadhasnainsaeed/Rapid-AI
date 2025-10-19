@@ -3,24 +3,24 @@ import { Star } from "lucide-react";
 
 export default function Testimonials() {
   return (
-    <section class="relative isolate overflow-hidden bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
-      <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,var(--color-indigo-500),transparent)] opacity-10"></div>
-      <div class="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-gray-900 shadow-xl ring-1 shadow-indigo-500/5 ring-white/5 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center"></div>
+    <section className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 sm:py-32 lg:px-8">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,var(--color-indigo-500),transparent)] opacity-10"></div>
+      <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-gray-900 shadow-xl ring-1 shadow-indigo-500/5 ring-white/5 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center"></div>
 
       {/* Testimonials section */}
-      <div class="text-center">
-        <h1 class="text-3xl md:text-4xl font-bold text-white">
+      <div className="text-center">
+        <h1 className="text-3xl md:text-4xl font-bold text-white">
           What Our Students Say
         </h1>
-        <p class="text-sm md:text-base text-gray-300 mt-4">
+        <p className="text-sm md:text-base text-gray-300 mt-4">
           Join thousand of successful students who transformed their careers
           with us
         </p>
-        <div class="flex flex-wrap justify-center gap-5 mt-16 text-left">
+        <div className="flex flex-wrap justify-center gap-5 mt-16 text-left">
           {dummyTestimonialData.map((testimonial, index) => (
             <div
               key={index}
-              class="w-80 flex flex-col items-start border border-gray-700 p-5 rounded-lg bg-gray-800"
+              className="w-80 flex flex-col items-start border border-gray-700 p-5 rounded-lg bg-gray-800"
             >
               <svg
                 width="44"
@@ -34,7 +34,7 @@ export default function Testimonials() {
                   fill="#6e78e6"
                 />
               </svg>
-              <div class="flex items-center justify-center mt-3 gap-1">
+              <div className="flex items-center justify-center mt-3 gap-1">
                 {Array(5)
                   .fill(0)
                   .map((_, rate) => (
@@ -47,18 +47,20 @@ export default function Testimonials() {
                     />
                   ))}
               </div>
-              <q class="text-sm mt-3 text-gray-400">{testimonial.content}</q>
-              <div class="flex items-center gap-3 mt-4">
+              <q className="text-sm mt-3 text-gray-400">
+                {testimonial.content}
+              </q>
+              <div className="flex items-center gap-3 mt-4">
                 <img
-                  class="h-12 w12 rounded-full"
+                  className="h-12 w12 rounded-full"
                   src={testimonial.image}
                   alt={testimonial.name}
                 />
                 <div>
-                  <h2 class="text-lg text-gray-300 font-medium">
+                  <h2 className="text-lg text-gray-300 font-medium">
                     {testimonial.name}
                   </h2>
-                  <p class="text-sm text-gray-400">{testimonial.title}</p>
+                  <p className="text-sm text-gray-400">{testimonial.title}</p>
                 </div>
               </div>
             </div>
