@@ -3,6 +3,8 @@ import sql from "../config/db.js";
 import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
+import PdfParse from "pdf-parse";
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -203,6 +205,57 @@ export const removeImageObject = async (req, res) => {
     `;
 
     res.json({ success: true, content: imageUrl });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+export const reviewResume = async (req, res) => {
+  try {
+    const { userId } = req.auth();
+    const resume = req.file;
+    const plan = req.plan;
+    if (plan !== "premium") {
+      return res.json({
+        success: false,
+        message: "This feature is only available for premium subscription",
+      });
+    }
+
+    if (resume > 5 * 1024 * 1024) {
+      return res.json({
+        success: false,
+        message: "Resume file size is exceeds allow size (5MB).",
+      });
+    }
+    const dataBuffer = fs.readFileSync(resume.path);
+
+    const pdfData = await PdfParse(dataBuffer);
+    await pdfData.destroy?.(); // Optional chaining in case destroy isn't available
+
+    const prompt = `Review the following resume and provider constructor
+    feedback on its strengths, weaknesses, and areas of improvement. Resume Content:\n\n${pdfData.text}`;
+
+    const response = await openai.chat.completions.create({
+      model: "gemini-2.0-flash",
+      messages: [
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+      temperature: 0.7,
+      max_completion_tokens: 1000,
+    });
+
+    const content = response.choices[0].message.content;
+
+    await sql` INSERT INTO creation (user_id, prompt, content, type)
+    VALUES (${userId}, 'Review the upload resume', ${content}, 'resume-review')
+    `;
+
+    res.json({ success: true, content });
   } catch (error) {
     console.log(error.message);
     res.json({ success: false, message: error.message });
