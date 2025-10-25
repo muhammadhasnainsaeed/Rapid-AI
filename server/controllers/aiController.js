@@ -4,7 +4,7 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import PdfParse from "pdf-parse";
+import { PDFParse } from "pdf-parse";
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -231,7 +231,7 @@ export const reviewResume = async (req, res) => {
     }
     const dataBuffer = fs.readFileSync(resume.path);
 
-    const pdfData = await PdfParse(dataBuffer);
+    const pdfData = await PDFParse(dataBuffer);
     await pdfData.destroy?.(); // Optional chaining in case destroy isn't available
 
     const prompt = `Review the following resume and provider constructor
