@@ -4,7 +4,8 @@ export const getUserCreations = async (req, res) => {
   try {
     const { userId } = req.auth();
 
-    const creations = sql`SELECT * FROM creation WHERE user_id = ${userId} ORDER BY created_at DESC`;
+    const creations =
+      await sql`SELECT * FROM creation WHERE user_id = ${userId} ORDER BY created_at DESC`;
     res.json({ success: true, creations });
   } catch (error) {
     res.json({ success: false, message: error.message });
@@ -13,7 +14,8 @@ export const getUserCreations = async (req, res) => {
 
 export const getPublishCreations = async (req, res) => {
   try {
-    const creations = sql`SELECT * FROM creation WHERE publish = true ORDER BY created_at DESC`;
+    const creations =
+      await sql`SELECT * FROM creation WHERE publish = true ORDER BY created_at DESC`;
     res.json({ success: true, creations });
   } catch (error) {
     res.json({ success: false, message: error.message });
