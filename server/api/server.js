@@ -8,12 +8,18 @@ import userRoutes from "../routes/userRoute.js";
 
 const app = express();
 
-// Cloudinary connection (safe to await before export)
-await connectCloudinary();
-
 app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
+
+(async () => {
+  try {
+    await connectCloudinary();
+    console.log("✅ Cloudinary connected");
+  } catch (err) {
+    console.error("❌ Cloudinary connection failed:", err.message);
+  }
+})();
 
 // Public route
 app.get("/", (req, res) => {
