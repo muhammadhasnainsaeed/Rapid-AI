@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(clerkMiddleware());
 
-app.get("/", (req, res) => res.send("Server is live"));
+app.get("/", (req, res) => res.send("Rapid AI Server is live"));
 
 app.use(requireAuth());
 
