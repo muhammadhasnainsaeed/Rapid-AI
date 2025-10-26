@@ -4,7 +4,8 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
-import { PDFParse } from "pdf-parse";
+import * as pdfParseModule from "pdf-parse";
+import pdfParse from "pdf-parse";
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -150,7 +151,7 @@ export const generateImage = async (req, res) => {
 export const removeImageBackground = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { image } = req.file;
+    const image = req.file;
     const plan = req.plan;
 
     if (plan !== "premium") {
@@ -183,7 +184,7 @@ export const removeImageBackground = async (req, res) => {
 export const removeImageObject = async (req, res) => {
   try {
     const { userId } = req.auth();
-    const { image } = req.file;
+    const image = req.file;
     const { object } = req.body;
     const plan = req.plan;
     if (plan !== "premium") {
@@ -223,16 +224,31 @@ export const reviewResume = async (req, res) => {
       });
     }
 
+    if (!resume) {
+      return res.json({
+        success: false,
+        message: "No resume uploaded.",
+      });
+    }
+
     if (resume > 5 * 1024 * 1024) {
       return res.json({
         success: false,
         message: "Resume file size is exceeds allow size (5MB).",
       });
     }
+    if (!resume.path || !fs.existsSync(resume.path)) {
+      return res.json({
+        success: false,
+        message: "Uploaded resume file not found on server.",
+      });
+    }
+
     const dataBuffer = fs.readFileSync(resume.path);
 
-    const pdfData = await PDFParse(dataBuffer);
-    await pdfData.destroy?.(); // Optional chaining in case destroy isn't available
+    // Use pdfParse directly
+    const pdfData = await pdfParse(dataBuffer);
+    await pdfData.destroy?.();
 
     const prompt = `Review the following resume and provider constructor
     feedback on its strengths, weaknesses, and areas of improvement. Resume Content:\n\n${pdfData.text}`;

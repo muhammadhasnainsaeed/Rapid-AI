@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./pages/Layout";
@@ -10,15 +10,12 @@ import RemoveObject from "./pages/RemoveObject";
 import RemoveBackground from "./pages/RemoveBackground";
 import ReviewResume from "./pages/ReviewResume";
 import Community from "./pages/Community";
-import { useAuth } from "@clerk/clerk-react";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { getToken } = useAuth();
-  useEffect(() => {
-    getToken().then((token) => console.log(token));
-  }, [getToken]);
   return (
     <div>
+      <Toaster />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/ai" element={<Layout />}>
