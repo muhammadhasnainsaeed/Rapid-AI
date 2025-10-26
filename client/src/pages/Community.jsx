@@ -93,7 +93,7 @@ export default function Community() {
       </div>
     </div>
   ) : (
-    <div className="flex-1 h-full flex flex-col items-center justify-center">
+    <div className="flex-1 h-full flex items-center justify-center">
       <span className="w-10 h-10 my-1 rounded-full border-3 border-white border-t-gray-400 animate-spin"></span>
     </div>
   );
