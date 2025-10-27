@@ -1,3 +1,54 @@
+# Client (frontend) — Rapid-AI
+
+This folder contains the React + Vite frontend application. The frontend consumes the server API endpoints (see `server/`) and requires a few environment variables to run locally.
+
+Prerequisites
+
+- Node.js (v18+ recommended)
+- npm or yarn
+
+Quick start (development)
+
+1. Install dependencies
+
+```bash
+cd client
+npm install
+```
+
+2. Set environment variables
+
+Create an `.env.local` (or `.env`) file in `client/` for any environment values you need. Commonly used variables:
+
+```env
+# Backend base URL used by axios (example)
+VITE_BASE_URL=http://localhost:3000
+
+# Clerk publishable key (if frontend handles Clerk initialization directly)
+VITE_CLERK_PUBLISHABLE_KEY=pk_xxx
+```
+
+3. Run the dev server
+
+```bash
+npm run dev
+```
+
+Build for production
+
+```bash
+npm run build
+```
+
+Notes
+
+- Do not hardcode secrets in the frontend. Only public keys (like Clerk publishable key) may appear in frontend env vars.
+- The frontend uses `getToken()` from `@clerk/clerk-react` to call protected server endpoints – ensure Clerk is properly configured and the server has matching secret keys.
+
+Debugging
+
+- If FormData appears empty when submitting files, ensure you pass the FormData instance itself to axios and do NOT manually set `Content-Type` (let the browser set the multipart boundary).
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
