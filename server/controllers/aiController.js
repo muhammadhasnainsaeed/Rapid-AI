@@ -11,6 +11,12 @@ const openai = new OpenAI({
   baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
 
+async function pdfToText(buffer) {
+  const parser = new PDFParse({ data: buffer });
+  const text = await parser.getText();
+  return text.text;
+}
+
 export const generateArticle = async (req, res) => {
   try {
     const { userId } = req.auth();
@@ -244,13 +250,10 @@ export const reviewResume = async (req, res) => {
     }
 
     const dataBuffer = fs.readFileSync(resume.path);
-
-    // Use pdfParse directly
-    const parser = new PDFParse({ data: dataBuffer });
-    const result = await parser.getText();
+    const text = await pdfToText(dataBuffer);
 
     const prompt = `Review the following resume and provider constructor
-    feedback on its strengths, weaknesses, and areas of improvement. Resume Content:\n\n${result.text}`;
+    feedback on its strengths, weaknesses, and areas of improvement. Resume Content:\n\n${text}`;
 
     const response = await openai.chat.completions.create({
       model: "gemini-2.0-flash",
