@@ -4,6 +4,7 @@ import { clerkClient } from "@clerk/express";
 import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
+import "pdf-parse/worker";
 import { PDFParse } from "pdf-parse";
 
 const openai = new OpenAI({
@@ -14,6 +15,7 @@ const openai = new OpenAI({
 async function pdfToText(buffer) {
   const parser = new PDFParse({ data: buffer });
   const text = await parser.getText();
+  await parser.destroy();
   return text.text;
 }
 
